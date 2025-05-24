@@ -1,0 +1,108 @@
+plugins {
+    id 'com.android.application' version '8.1.0' apply false
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id 'com.google.gms.google-services' version '4.4.0' apply false
+    id 'com.google.firebase.crashlytics' version '2.9.9' apply false
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+
+android {
+    compileSdkVersion 35
+    ndkVersion "27.0.12077973"
+    namespace "org.gripbh.grip"
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = 17
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        applicationId "org.gripbh.grip"
+        minSdkVersion 24
+        targetSdkVersion 35
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'upload'  // Alias name you used when generating the keystore
+            keyPassword 'SaadHegazy@2024'  // The password you chose for the key
+            storeFile file('../app/upload-keystore.jks')  // Full path to the keystore file
+            storePassword 'SaadHegazy@2024'  // The password for the keystore
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.debug
+            //  proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "MightyFitness-${variant.versionCode}-${variant.versionName}.apk"
+        }
+    }
+
+    //archivesBaseName = "MightyFitness-1000-000"
+
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    // Firebase BOM
+    implementation platform("org.google.firebase:firebase-bom:32.7.2")
+    // Firebase dependencies
+    implementation "org.google.firebase:firebase-auth"
+    implementation "org.google.android.gms:play-services-auth:20.7.0"
+    implementation 'org.google.android.gms:play-services-ads:22.6.0'
+
+    // Firebase Analytics
+    implementation(platform("org.google.firebase:firebase-bom:32.8.0"))
+    implementation "org.google.firebase:firebase-analytics-ktx"
+    implementation "org.google.firebase:firebase-analytics"
+    implementation 'androidx.multidex:multidex:2.0.1'
+    coreLibraryDesugaring 'org.android.tools:desugar_jdk_libs:1.1.5'
+  /*  implementation('org.braintreepayments.api:drop-in:5.2.1') {
+        exclude group: "org.jfrog.cardinalcommerce.gradle", module: "cardinalmobilesdk"
+    }*/
+   // implementation("org.jfrog.cardinalcommerce.gradle:cardinalmobilesdk:2.2.7-2")
+    implementation 'androidx.window:window:1.0.0'
+    implementation 'androidx.window:window-java:1.0.0'
+
+    implementation 'org.google.android.gms:play-services-cast-framework:21.3.0'
+
+}

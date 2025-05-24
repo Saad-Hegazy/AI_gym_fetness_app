@@ -1,0 +1,2 @@
+C:/Users/LENOVO/projects/grip/MightyFitnessSourceCode/FlutterCode/grip_fetness_center/android/app/.cxx/Debug/145g7326/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/LENOVO/projects/grip/MightyFitnessSourceCode/FlutterCode/grip_fetness_center/android/app/.cxx/Debug/145g7326/arm64-v8a/CMakeFiles/rebuild_cache.dir
